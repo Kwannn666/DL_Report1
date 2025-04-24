@@ -20,28 +20,50 @@ Ensure that train.txt, val.txt, test.txt and the image files are all under the .
 
 Open the Notebook
 
-Launch JupyterLab or Jupyter Notebook and open TaskA_All_in_One.ipynb.
+Launch JupyterLab or Jupyter Notebook and open Task1.ipynb.
 
 Adjust Dataset Path
 In the notebook you’ll find:
 
-img_dir = "PATH"
+img_dir = "YOUR_PATH"
 
 Change it to your local path, for example:
 
 img_dir = "./image"
 
+DL_Report1
+├──Task1/
+   └──Task1.ipynb
+   ├── flexible_dynamicconv_result.csv
+   └── final_comparison_result.csv
+└──image/
+   └──images/
+      ├── train.txt
+      ├── val.txt
+      ├──test.txt
+      └──image/
+         └──n02111277
+               ...
+               
 Execute Cells in Order
 
-Cell 0: Import all required libraries
+Cell 1: 載入套件
 
-Cell 1: Define get_channel_mask, Dataset class, DynamicConv, ToyClassifier, StaticConvNet, and evaluation functions
+Cell 2: 自定義通道選擇設定
 
-Cell 2: Helper functions (evaluate_baseline, evaluate)
+Cell 3: 資料集設定
 
-Cell 3: run_baseline and run_flexible_dynamicconv_combinations implementations
+Cell 4: 動態捲積
 
-Cell 4: Set transform, hyper_configs, then call run_flexible_dynamicconv_combinations and run_baseline, finally merge results and save CSV
+Cell 5: 分類器
+
+Cell 6: Baseline CNN
+
+Cell 7: 評估函數
+
+Cell 8: 程式主流程
+
+Cell 9: 執行程式
 
 Inspect Results
 After execution completes, two CSV files will be generated in your working directory:
@@ -49,4 +71,5 @@ After execution completes, two CSV files will be generated in your working direc
 flexible_dynamicconv_result.csv
 
 final_comparison_result.csv
+
 You can view them directly in the notebook via print(df_all) or open with Excel/Google Sheets.
