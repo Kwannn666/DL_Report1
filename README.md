@@ -1,42 +1,52 @@
 # DL_Report1
 Deep Learning assignment including Dynamic Convolution Module and Two-Layer Network for Image Classification on ImageNet-mini.
-flowchart TD
-    subgraph 資料準備
-      A1[讀取 train.txt (RGB)] --> A2[讀取 val.txt (RGB)]
-      A1 --> A3[讀取 test.txt (多通道)]
-    end
 
-    subgraph DynamicConv 訓練
-      B0[選定超參 (hidden_dim, out_ch)]
-      B1[初始化 DynamicConv + ToyClassifier]
-      B2[訓練：只用 RGB 訓練集]
-      B3[每 epoch → 前向 & 反向傳播，更新權重]
-      B4[驗證：計算 val_acc on val.txt]
-      B5[調整超參，選出最佳組合]
-    end
+Task_A 
 
-    subgraph 多通道推論
-      C1[固定訓練後模型]
-      C2[對 channel_combos = ["RGB","RG","RB","GB","R","G","B"]]
-      C3[築測試 DataLoader (對應 combo)]
-      C4[計算 Test Accuracy]
-      C5[量測 FLOPs & Params]
-      C6[儲存至 flexible_dynamicconv_result.csv]
-    end
+## How to Run
 
-    subgraph StaticBaseline 實驗
-      D1[初始化 StaticConvNet (3→64→num_classes)]
-      D2[訓練：只用 RGB 訓練集]
-      D3[每 epoch → 前向 & 反向傳播，更新權重]
-      D4[驗證：計算 val_acc on val.txt]
-      D5[測試：計算 test_acc on test.txt]
-      D6[量測 FLOPs & Params]
-      D7[儲存到同一結果表]
-    end
+1. **Environment Setup**  
+   - Python ≥ 3.8  
+   - Install required packages:  
+     ```bash
+     pip install torch torchvision pillow pandas tqdm thop
+     ```
 
-    %% 連線
-    A1 & A2 & A3 --> B1
-    B1 --> B2 --> B3 --> B4 --> B5
-    B5 --> C1 --> C2 --> C3 --> C4 --> C5 --> C6
-    A1 & A2 & A3 --> D1
-    D1 --> D2 --> D3 --> D4 --> D5 --> D6 --> D7
+2. **Download and Extract Dataset**  
+   ```bash
+   wget https://cchsu.info/files/images.zip -O images.zip
+   unzip images.zip -d image
+Ensure that train.txt, val.txt, test.txt and the image files are all under the ./image directory.
+
+Open the Notebook
+
+Launch JupyterLab or Jupyter Notebook and open TaskA_All_in_One.ipynb.
+
+Adjust Dataset Path
+In the notebook you’ll find:
+
+img_dir = "PATH"
+
+Change it to your local path, for example:
+
+img_dir = "./image"
+
+Execute Cells in Order
+
+Cell 0: Import all required libraries
+
+Cell 1: Define get_channel_mask, Dataset class, DynamicConv, ToyClassifier, StaticConvNet, and evaluation functions
+
+Cell 2: Helper functions (evaluate_baseline, evaluate)
+
+Cell 3: run_baseline and run_flexible_dynamicconv_combinations implementations
+
+Cell 4: Set transform, hyper_configs, then call run_flexible_dynamicconv_combinations and run_baseline, finally merge results and save CSV
+
+Inspect Results
+After execution completes, two CSV files will be generated in your working directory:
+
+flexible_dynamicconv_result.csv
+
+final_comparison_result.csv
+You can view them directly in the notebook via print(df_all) or open with Excel/Google Sheets.
